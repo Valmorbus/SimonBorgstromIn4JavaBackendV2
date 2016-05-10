@@ -116,6 +116,13 @@ public class Boundary {
         bf.create(betyg);
     }
     
+    
+    public Studenter getStudentFromCourse(int id){
+        Betyg kurs = bf.find(id);
+        Studenter student = kurs.getStudenter();
+        return student;
+    }
+    
   
 
 }
