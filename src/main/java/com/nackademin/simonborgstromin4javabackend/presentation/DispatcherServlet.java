@@ -5,8 +5,10 @@
  */
 package com.nackademin.simonborgstromin4javabackend.presentation;
 
+import com.nackademin.simonborgstromin4javabackend.business.Boundary;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author borgs_000
  */
-@WebServlet(name = "StudentServlet", urlPatterns = {"/StudentServlet"})
+@WebServlet(name = "StudentServlet", urlPatterns = {"/"})
 public class DispatcherServlet extends HttpServlet {
 
     /**
@@ -29,6 +31,10 @@ public class DispatcherServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    @Inject 
+    Boundary bound;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -58,7 +64,16 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+      String path = request.getServletPath();
+      String forward = null;
+     
+     
+      request.setAttribute("allCourses", bound.listAllCourses());
+      
+                            forward = "index.jsp";
+     
+      request.getRequestDispatcher(forward).forward(request, response);
     }
 
     /**

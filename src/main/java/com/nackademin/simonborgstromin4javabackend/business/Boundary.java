@@ -75,18 +75,6 @@ public class Boundary {
         sf.edit(student);
     }
 
-    public void setGrade(int id, Betyg betyg) {
-        Studenter student = sf.find(id);
-        student.getBetygSet().add(betyg);
-        sf.edit(student);
-    }
-
-    public void setGrade(int studentId, int courseId, String betygValue) {
-        Betyg betyg = new Betyg(studentId, courseId);
-        betyg.setBetyg(betygValue);
-        bf.create(betyg);
-    }
-
     public void addCourse(Kurser course) {
         kf.create(course);
     }
@@ -114,5 +102,20 @@ public class Boundary {
     public Kurser findCourse(int id) {
         return kf.find(id);
     }
+    
+    
+    public void setGrade(int id, Betyg betyg) {
+        Studenter student = sf.find(id);
+        student.getBetygSet().add(betyg);
+        sf.edit(student);
+    }
+
+    public void setGrade(int studentId, int courseId, String betygValue) {
+        Betyg betyg = new Betyg(studentId, courseId);
+        betyg.setBetyg(betygValue);
+        bf.create(betyg);
+    }
+    
+  
 
 }
