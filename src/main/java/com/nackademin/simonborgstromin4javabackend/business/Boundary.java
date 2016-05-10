@@ -41,17 +41,17 @@ public class Boundary {
         student.setNamn(namn);
         sf.create(student);
     }
-
+/*
     public void setStudentCourse(Studenter student, Kurser kurs) {
-        student.getKurserSet().add(kurs);
+        student.getBetygCollection().add();
         sf.edit(student);
     }
 
     public void setStudentCourse(int id, Kurser kurs) {
         Studenter student = sf.find(id);
-        student.getKurserSet().add(kurs);
+        student.getBetygCollection().add(kurs);
         sf.edit(student);
-    }
+    }*/
 
     public void removeStudent(Studenter student) {
         sf.remove(student);
@@ -69,11 +69,11 @@ public class Boundary {
     public Studenter findStudent(int id) {
         return sf.find(id);
     }
-
+/*
     public void setGrade(Studenter student, Betyg betyg) {
         student.getBetygSet().add(betyg);
         sf.edit(student);
-    }
+    }*/
 
     public void addCourse(Kurser course) {
         kf.create(course);
@@ -103,12 +103,12 @@ public class Boundary {
         return kf.find(id);
     }
     
-    
+    /*
     public void setGrade(int id, Betyg betyg) {
         Studenter student = sf.find(id);
         student.getBetygSet().add(betyg);
         sf.edit(student);
-    }
+    }*/
 
     public void setGrade(int studentId, int courseId, String betygValue) {
         Betyg betyg = new Betyg(studentId, courseId);

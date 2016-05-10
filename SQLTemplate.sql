@@ -9,9 +9,7 @@ create table kurser(
 ID INT not null primary key
         GENERATED ALWAYS AS IDENTITY
         (START WITH 1, INCREMENT BY 1),  
-namn varchar (256) not null,
-studentid int,
-foreign key (studentid) references studenter(id)
+namn varchar (256) not null
 );
 
 

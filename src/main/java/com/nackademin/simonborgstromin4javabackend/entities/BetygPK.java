@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author borgs_000
+ * @author Simons
  */
 @Embeddable
 public class BetygPK implements Serializable {

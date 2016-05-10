@@ -6,7 +6,7 @@
 package com.nackademin.simonborgstromin4javabackend.entities;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author borgs_000
+ * @author Simons
  */
 @Entity
 @Table(name = "KURSER")
@@ -49,11 +47,8 @@ public class Kurser implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "NAMN")
     private String namn;
-    @JoinColumn(name = "STUDENTID", referencedColumnName = "ID")
-    @ManyToOne
-    private Studenter studentid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kurser")
-    private Set<Betyg> betygSet;
+    private Collection<Betyg> betygCollection;
 
     public Kurser() {
     }
@@ -83,21 +78,13 @@ public class Kurser implements Serializable {
         this.namn = namn;
     }
 
-    public Studenter getStudentid() {
-        return studentid;
-    }
-
-    public void setStudentid(Studenter studentid) {
-        this.studentid = studentid;
-    }
-
     @XmlTransient
-    public Set<Betyg> getBetygSet() {
-        return betygSet;
+    public Collection<Betyg> getBetygCollection() {
+        return betygCollection;
     }
 
-    public void setBetygSet(Set<Betyg> betygSet) {
-        this.betygSet = betygSet;
+    public void setBetygCollection(Collection<Betyg> betygCollection) {
+        this.betygCollection = betygCollection;
     }
 
     @Override
