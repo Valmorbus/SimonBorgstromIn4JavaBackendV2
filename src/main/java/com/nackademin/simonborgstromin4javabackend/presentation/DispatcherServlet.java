@@ -82,6 +82,7 @@ public class DispatcherServlet extends HttpServlet {
                 int studentid = Integer.parseInt(request.getParameter("idStudent"));
                 request.setAttribute("student", bound.getStudentToUpdate(studentid));
                 forward = "/secure/betyg.jsp";
+                
                 break;
             default:
                 request.setAttribute("allCourses", bound.listAllCourses());

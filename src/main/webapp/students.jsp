@@ -20,16 +20,7 @@
         <li> 
             <a href="betyg?idStudent=${studenter.studenter.id}">${studenter.studenter.namn}</a>
            
-                <form action="/students" method="POST" id="valueform">
-                   <input type="submit" value="GRADE"/>
-                </form>
-                    <select name="value" form="valueform">
-                    <option  value="null">Set grade</option>
-                    <option  value="ig">IG</option>
-                    <option  value="g">G</option>
-                    <option  value="vg">VG</option>
-                    <option  value="mvg">MVG</option>
-                    </select>
+           
                  
                 
         </li>
