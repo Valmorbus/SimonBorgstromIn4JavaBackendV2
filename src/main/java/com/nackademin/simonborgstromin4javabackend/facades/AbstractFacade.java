@@ -60,5 +60,12 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+    /*
+    public List<T> findAllFromAnother(int i){
+          javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+        javax.persistence.Query query = getEntityManager().createQuery("findAllStudents", entityClass);
+        return query.getResultList();
+    }
+    */
 }

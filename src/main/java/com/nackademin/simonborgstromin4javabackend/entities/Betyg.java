@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Betyg.findAll", query = "SELECT b FROM Betyg b"),
     @NamedQuery(name = "Betyg.findByKursid", query = "SELECT b FROM Betyg b WHERE b.betygPK.kursid = :kursid"),
     @NamedQuery(name = "Betyg.findByStudentid", query = "SELECT b FROM Betyg b WHERE b.betygPK.studentid = :studentid"),
-    @NamedQuery(name = "Betyg.findByBetyg", query = "SELECT b FROM Betyg b WHERE b.betyg = :betyg")})
+    @NamedQuery(name = "Betyg.findByBetyg", query = "SELECT b FROM Betyg b WHERE b.betyg = :betyg") 
+    
+    })
 public class Betyg implements Serializable {
 
     private static final long serialVersionUID = 1L;

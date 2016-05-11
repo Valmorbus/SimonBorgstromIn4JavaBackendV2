@@ -33,3 +33,7 @@ userid varchar(256) not null,
 password varchar(256) not null, 
 primary key(userid, password)
 );
+
+insert into kurser(namn) values ('JavaEE');
+insert into Studenter (namn) values ('Robin Bog');
+insert into betyg (kursid, studentid) values (1,1);

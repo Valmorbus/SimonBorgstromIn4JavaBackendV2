@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -41,7 +42,8 @@ public class Boundary {
         student.setNamn(namn);
         sf.create(student);
     }
-/*
+
+    /*
     public void setStudentCourse(Studenter student, Kurser kurs) {
         student.getBetygCollection().add();
         sf.edit(student);
@@ -69,7 +71,8 @@ public class Boundary {
     public Studenter findStudent(int id) {
         return sf.find(id);
     }
-/*
+
+    /*
     public void setGrade(Studenter student, Betyg betyg) {
         student.getBetygSet().add(betyg);
         sf.edit(student);
@@ -84,7 +87,6 @@ public class Boundary {
         course.setNamn(namn);
         kf.create(course);
     }
-
 
     public void removeCourse(Kurser course) {
         kf.remove(course);
@@ -102,27 +104,33 @@ public class Boundary {
     public Kurser findCourse(int id) {
         return kf.find(id);
     }
-    
+
     /*
-    public void setGrade(int id, Betyg betyg) {
+    public void setGrade(String betyg) {
         Studenter student = sf.find(id);
         student.getBetygSet().add(betyg);
         sf.edit(student);
     }*/
-
     public void setGrade(int studentId, int courseId, String betygValue) {
         Betyg betyg = new Betyg(studentId, courseId);
         betyg.setBetyg(betygValue);
-        bf.create(betyg);
+        bf.edit(betyg);
     }
-    
-    
-    public Studenter getStudentFromCourse(int id){
+
+    public Studenter getStudentFromCourse(int id) {
         Betyg kurs = bf.find(id);
         Studenter student = kurs.getStudenter();
         return student;
     }
+
+    public List<Betyg> getAllStudentFromCourse(Integer id) {
+        TypedQuery<Betyg> q = bf.getEntityManager().createNamedQuery("Betyg.findByKursid", Betyg.class);
+        return q.setParameter("kursid", id).getResultList();     
+    }
     
-  
+    public Betyg getStudentToUpdate(int id){
+        TypedQuery<Betyg> q = bf.getEntityManager().createNamedQuery("Betyg.findByStudentid", Betyg.class);
+        return q.setParameter("studentid", id).getSingleResult();
+    }
 
 }

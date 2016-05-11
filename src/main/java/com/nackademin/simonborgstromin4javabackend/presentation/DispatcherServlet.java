@@ -31,10 +31,9 @@ public class DispatcherServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    @Inject 
+    @Inject
     Boundary bound;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,7 +42,7 @@ public class DispatcherServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StudentServlet</title>");            
+            out.println("<title>Servlet StudentServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet StudentServlet at " + request.getContextPath() + "</h1>");
@@ -65,15 +64,33 @@ public class DispatcherServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-      String path = request.getServletPath();
-      String forward = null;
-     
-     
-      request.setAttribute("allCourses", bound.listAllCourses());
-      
-                            forward = "index.jsp";
-     
-      request.getRequestDispatcher(forward).forward(request, response);
+        String path = request.getServletPath();
+        String forward = null;
+
+        switch (path) {
+            case "/index":
+                request.setAttribute("allCourses", bound.listAllCourses());
+                forward = "/index.jsp";
+                break;
+            case "/students":
+                int idCourse = Integer.parseInt(request.getParameter("id"));
+                request.setAttribute("courseName", bound.findCourse(idCourse).getNamn());
+                request.setAttribute("allStudents", bound.getAllStudentFromCourse(idCourse));
+                forward = "/students.jsp";
+                break;
+            case "/betyg":
+                int studentid = Integer.parseInt(request.getParameter("idStudent"));
+                request.setAttribute("student", bound.getStudentToUpdate(studentid));
+                forward = "/secure/betyg.jsp";
+                break;
+            default:
+                request.setAttribute("allCourses", bound.listAllCourses());
+                forward = "/SimonBorgstromIn4JavaBackend/index.jsp";
+                break;
+        }
+
+        request.getRequestDispatcher(forward).forward(request, response);
+
     }
 
     /**
@@ -87,12 +104,12 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         request.setCharacterEncoding("UTF-8");
-        String course = request.getParameter("coursevalue");
-        request.setAttribute("courseId", bound.getStudentFromCourse(Integer.valueOf(course)));
-  
-        String forward = "students.jsp";
-        request.getRequestDispatcher(forward).forward(request, response);
+        Integer kursId = Integer.valueOf(request.getParameter("kursid"));
+        Integer studentid = Integer.valueOf(request.getParameter("studentid"));
+        String requ = request.getParameter("value");
+        System.out.println(kursId + " " +studentid +" " + requ);
+        bound.setGrade(studentid, kursId, requ);
+        
     }
 
     /**

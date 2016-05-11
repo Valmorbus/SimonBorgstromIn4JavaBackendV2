@@ -14,16 +14,16 @@
     <body>
       
         <h1>Hello World!</h1>
-        <form action="" method="POST">
+     
             Courses:
-        <select name="coursevalue">
+        
             <c:forEach items="${allCourses}" var="course">
-                <option value=${course.id}>${course.namn}</option>
-                <input type="submit" value="Submit"/>
+            <li><a href="students?id=${course.id}">${course.namn}</li>
+                
             </c:forEach>
                         
                         
-        </select> 
-        </form>
+      
+      
     </body>
 </html>
