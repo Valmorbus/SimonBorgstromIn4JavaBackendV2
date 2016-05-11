@@ -18,7 +18,8 @@
         <h2>Studenter i kurs ${courseName} </h2>
         <c:forEach items="${allStudents}" var="studenter">
         <li> 
-            <a href="secure/betyg?idStudent=${studenter.studenter.id}">${studenter.studenter.namn}</a>
+           
+            <a href="betyg?id=${studenter.studenter.id}">${studenter.studenter.namn}</a>
            
            
                  

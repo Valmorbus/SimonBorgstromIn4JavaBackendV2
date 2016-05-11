@@ -60,6 +60,7 @@ public class DispatcherServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,13 +80,14 @@ public class DispatcherServlet extends HttpServlet {
                 forward = "/students.jsp";
                 break;
             case "/betyg":
-                int studentid = Integer.parseInt(request.getParameter("idStudent"));
+                int studentid = Integer.parseInt(request.getParameter("id"));
+                System.out.println(studentid);
                 request.setAttribute("student", bound.getStudentToUpdate(studentid));
-                forward = "/secure/betyg.jsp";
+                forward = "secure/betyg.jsp";
                 break;
             default:
                 request.setAttribute("allCourses", bound.listAllCourses());
-                forward = "/SimonBorgstromIn4JavaBackend/index.jsp";
+                forward = "/index.jsp";
                 break;
         }
 
