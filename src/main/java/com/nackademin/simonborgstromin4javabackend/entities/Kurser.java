@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Kurser.findAll", query = "SELECT k FROM Kurser k"),
     @NamedQuery(name = "Kurser.findById", query = "SELECT k FROM Kurser k WHERE k.id = :id"),
-    @NamedQuery(name = "Kurser.findByNamn", query = "SELECT k FROM Kurser k WHERE k.namn = :namn" 
+    @NamedQuery(name = "Kurser.findByNamn", query = "SELECT k FROM Kurser k WHERE k.namn = :namn"),
+    @NamedQuery(name = "Kurser.findUnregistered", query= "SELECT k FROM Kurser k WHERE NOT EXISTS (SELECT c FROM k.betygCollection c)"
     )})
 public class Kurser implements Serializable {
 

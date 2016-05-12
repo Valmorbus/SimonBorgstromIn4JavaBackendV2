@@ -20,9 +20,6 @@
         <li> 
            
             <a href="secure/betyg?id=${studenter.studenter.id}">${studenter.studenter.namn}</a>
-           
-           
-                 
                 
         </li>
     </c:forEach>

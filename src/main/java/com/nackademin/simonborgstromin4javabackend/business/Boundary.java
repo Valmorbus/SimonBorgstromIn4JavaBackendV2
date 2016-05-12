@@ -133,4 +133,17 @@ public class Boundary {
         return q.setParameter("studentid", id).getSingleResult();
     }
 
+    public List<Studenter> getAllUnregisteredStudent() {
+        TypedQuery<Studenter> q = sf.getEntityManager().createNamedQuery("Studenter.findUnregistered", Studenter.class);
+        return q.getResultList();     
+    }
+    
+      public List<Kurser> getAllUnregisteredCourses() {
+        TypedQuery<Kurser> q = sf.getEntityManager().createNamedQuery("Kurser.findUnregistered", Kurser.class);
+        return q.getResultList();     
+    }
+      public List<Betyg> getAllGrades(){
+        
+        return bf.findAll();
+    }
 }

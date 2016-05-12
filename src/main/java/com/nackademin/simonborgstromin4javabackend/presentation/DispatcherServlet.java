@@ -86,8 +86,9 @@ public class DispatcherServlet extends HttpServlet {
                 forward = "/secure/betyg.jsp";
                 break;
             case "/secure/admin":
-                request.setAttribute("allStudents", bound.listAllStudents());
-                request.setAttribute("allCourses", bound.listAllCourses());
+                request.setAttribute("allStudents", bound.getAllUnregisteredStudent());
+                request.setAttribute("allCourses", bound.getAllUnregisteredCourses());
+                request.setAttribute("allGrades", bound.getAllGrades());
                 forward ="/secure/admin.jsp";
                 break;
            default:
@@ -119,6 +120,11 @@ public class DispatcherServlet extends HttpServlet {
         
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
     /**
      * Returns a short description of the servlet.
      *
@@ -128,5 +134,7 @@ public class DispatcherServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    
 
 }
