@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author borgs_000
  */
-@WebServlet(name = "StudentServlet", urlPatterns = {"/"})
+@WebServlet(name = "StudentServlet", urlPatterns = {"/", "/secure/DispatcherServlet"})
 public class DispatcherServlet extends HttpServlet {
 
     /**
@@ -79,13 +79,13 @@ public class DispatcherServlet extends HttpServlet {
                 request.setAttribute("allStudents", bound.getAllStudentFromCourse(idCourse));
                 forward = "/students.jsp";
                 break;
-            case "/betyg":
+            case "/secure/betyg":
                 int studentid = Integer.parseInt(request.getParameter("id"));
                 System.out.println(studentid);
                 request.setAttribute("student", bound.getStudentToUpdate(studentid));
-                forward = "secure/betyg.jsp";
+                forward = "/secure/betyg.jsp";
                 break;
-            default:
+           default:
                 request.setAttribute("allCourses", bound.listAllCourses());
                 forward = "/index.jsp";
                 break;

@@ -19,7 +19,7 @@
         <c:forEach items="${allStudents}" var="studenter">
         <li> 
            
-            <a href="betyg?id=${studenter.studenter.id}">${studenter.studenter.namn}</a>
+            <a href="secure/betyg?id=${studenter.studenter.id}">${studenter.studenter.namn}</a>
            
            
                  
