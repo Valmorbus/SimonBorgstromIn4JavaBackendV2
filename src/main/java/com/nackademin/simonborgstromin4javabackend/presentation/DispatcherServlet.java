@@ -85,6 +85,11 @@ public class DispatcherServlet extends HttpServlet {
                 request.setAttribute("student", bound.getStudentToUpdate(studentid));
                 forward = "/secure/betyg.jsp";
                 break;
+            case "/secure/admin":
+                request.setAttribute("allStudents", bound.listAllStudents());
+                request.setAttribute("allCourses", bound.listAllCourses());
+                forward ="/secure/admin.jsp";
+                break;
            default:
                 request.setAttribute("allCourses", bound.listAllCourses());
                 forward = "/index.jsp";

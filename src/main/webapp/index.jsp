@@ -14,9 +14,9 @@
     <body>
       
         <h1>Hello World!</h1>
-     
+      <a href ="secure/admin.jsp">Administer</a> <br>
             Courses:
-        
+           
             <c:forEach items="${allCourses}" var="course">
             <li><a href="students?id=${course.id}">${course.namn}</li>
                 
