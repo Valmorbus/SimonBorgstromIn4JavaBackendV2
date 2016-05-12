@@ -13,9 +13,9 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        
+
          <c:forEach items="${student}" var="student">
-                   
+               
                  <form action="" method="POST" id="valueform">
                      <input hidden value = "${student.studenter.id}" name="studentid">${student.studenter.namn}
                      <input hidden value = "${student.kurser.id}" name="kursid"> ${student.kurser.namn}

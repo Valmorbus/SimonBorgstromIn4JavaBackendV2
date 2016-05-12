@@ -60,7 +60,6 @@ public class DispatcherServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -89,9 +88,9 @@ public class DispatcherServlet extends HttpServlet {
                 request.setAttribute("allStudents", bound.getAllUnregisteredStudent());
                 request.setAttribute("allCourses", bound.getAllUnregisteredCourses());
                 request.setAttribute("allGrades", bound.getAllGrades());
-                forward ="/secure/admin.jsp";
+                forward = "/secure/admin.jsp";
                 break;
-           default:
+            default:
                 request.setAttribute("allCourses", bound.listAllCourses());
                 forward = "/index.jsp";
                 break;
@@ -112,19 +111,47 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer kursId = Integer.valueOf(request.getParameter("kursid"));
-        Integer studentid = Integer.valueOf(request.getParameter("studentid"));
-        String requ = request.getParameter("value");
-        System.out.println(kursId + " " +studentid +" " + requ);
-        bound.setGrade(studentid, kursId, requ);
-        
+
+        request.setCharacterEncoding("UTF-8");
+        String redirect = "";
+        String postType = request.getParameter("postType");
+        switch (postType) {
+            case "setGrade":
+                Integer kursId = Integer.valueOf(request.getParameter("kursid"));
+                Integer studentid = Integer.valueOf(request.getParameter("studentid"));
+                String requ = request.getParameter("value");
+                System.out.println(kursId + " " + studentid + " " + requ);
+                bound.setGrade(studentid, kursId, requ);
+                break;
+            case "deleteStudent":
+                int studentId = Integer.parseInt(request.getParameter("studentid"));
+                bound.removeStudent(studentId);
+                break;
+            case "deleteCourse":
+                int kursToDeleteId = Integer.parseInt(request.getParameter("kursid"));
+                bound.removeCourse(kursToDeleteId);
+                break;
+            case "addStudent":
+                String studentToAdd = request.getParameter("name");
+                bound.addStudent(studentToAdd);
+
+                break;
+            case "addCourse":
+                String courseToadd = request.getParameter("name");
+                bound.addCourse(courseToadd);
+                break;
+        }
+        response.sendRedirect("admin");
+        //  request.getRequestDispatcher("/secure/admin.jsp").forward(request, response);
+
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
+
     /**
      * Returns a short description of the servlet.
      *
@@ -134,7 +161,5 @@ public class DispatcherServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
 
 }
