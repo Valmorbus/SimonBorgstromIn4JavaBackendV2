@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 
 
 
-@WebServlet(name = "StudentServlet", urlPatterns = {"/", "/secure/DispatcherServlet"})
+@WebServlet(name = "StudentServlet", urlPatterns = {"/**", "/secure/DispatcherServlet"})
 public class DispatcherServlet extends HttpServlet {
 
 
