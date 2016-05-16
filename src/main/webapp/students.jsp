@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>${courseName} studentlista</h1>
 
 
         <h2>Studenter i kurs ${courseName} </h2>

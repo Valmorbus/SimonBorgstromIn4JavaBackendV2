@@ -12,11 +12,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Administrera kurs ${student.kurser.namn}</h1>
 
          <c:forEach items="${student}" var="student">
                
                  <form action="" method="POST" id="valueform">
+                     <input type="hidden" name="postType" value="setSimpleGrade">
                      <input hidden value = "${student.studenter.id}" name="studentid">${student.studenter.namn}
                      <input hidden value = "${student.kurser.id}" name="kursid"> ${student.kurser.namn}
                      <select name="value" form="valueform">

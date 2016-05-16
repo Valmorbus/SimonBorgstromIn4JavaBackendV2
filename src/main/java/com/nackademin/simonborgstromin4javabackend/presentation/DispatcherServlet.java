@@ -14,42 +14,25 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author borgs_000
  */
+
+// Städa i kod, fixa texter
+// sätta upp Roller 
+// redirekt vid fel roll
+
+
+
 @WebServlet(name = "StudentServlet", urlPatterns = {"/", "/secure/DispatcherServlet"})
 public class DispatcherServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Inject
     Boundary bound;
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet StudentServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet StudentServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -113,53 +96,76 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-        String redirect = "";
         String postType = request.getParameter("postType");
+        String url = "admin";
         switch (postType) {
-            case "setGrade":
+            case "setSimpleGrade" :{
+                 try{
                 Integer kursId = Integer.valueOf(request.getParameter("kursid"));
                 Integer studentid = Integer.valueOf(request.getParameter("studentid"));
                 String requ = request.getParameter("value");
                 System.out.println(kursId + " " + studentid + " " + requ);
-                bound.setGrade(studentid, kursId, requ);
+                bound.gradeStudent(studentid, kursId, requ);
+                url = "../index";
+                } catch(javax.ejb.EJBAccessException e){
+                    url = "../index";
+                }
+                break;    
+            }
+            case "setGrade":
+                try{
+                Integer kursId = Integer.valueOf(request.getParameter("kursid"));
+                Integer studentid = Integer.valueOf(request.getParameter("studentid"));
+                String requ = request.getParameter("value");
+                System.out.println(kursId + " " + studentid + " " + requ);
+                bound.gradeStudent(studentid, kursId, requ);
+                } catch(javax.ejb.EJBAccessException e){
+                    url = "admin";
+                }
                 break;
             case "deleteStudent":
+                try{
                 int studentId = Integer.parseInt(request.getParameter("studentid"));
                 bound.removeStudent(studentId);
+                } catch(javax.ejb.EJBAccessException e){
+                    url = "admin";
+                }
                 break;
             case "deleteCourse":
+                try{
                 int kursToDeleteId = Integer.parseInt(request.getParameter("kursid"));
                 bound.removeCourse(kursToDeleteId);
+                 } catch(javax.ejb.EJBAccessException e){
+                    url = "admin";
+                }
                 break;
             case "addStudent":
+                try{
                 String studentToAdd = request.getParameter("name");
                 bound.addStudent(studentToAdd);
-
+                } catch(javax.ejb.EJBAccessException e){
+                    url = "admin";
+                }
                 break;
             case "addCourse":
+                try{
                 String courseToadd = request.getParameter("name");
                 bound.addCourse(courseToadd);
+                 } catch(javax.ejb.EJBAccessException e){
+                    url = "admin";
+                }
                 break;
+            case "logout":{
+                 HttpSession session=request.getSession();  
+                  session.invalidate();  
+                  url = "../index";
+                  break;
+                  
+            }
         }
-        response.sendRedirect("admin");
-        //  request.getRequestDispatcher("/secure/admin.jsp").forward(request, response);
+        response.sendRedirect(url);
 
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+   
 }

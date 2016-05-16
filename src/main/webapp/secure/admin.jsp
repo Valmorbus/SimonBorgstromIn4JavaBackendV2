@@ -14,7 +14,7 @@
     <body>
         <h1>AdminPage</h1>
 
-        <h2>All Students:</h2>
+        <h2>All Students not in courses:</h2>
         <table>
             <thead><td>Student</td><td>Delete</td></thead>
         <tbody>
@@ -31,7 +31,7 @@
     </c:forEach>
 </tbody>
 </table>
-<h2> All Courses:</h2>
+<h2> All Courses without students:</h2>
 <table>
     <thead><td>Kurs</td><td>Delete</td></thead>
 <tbody>
@@ -67,7 +67,7 @@
 
 
 
-<h2>Grade</h2>
+<h2>Grade students in ongoing courses</h2>
 
 <table>
     <thead><td>Student</td><td>Kurs</td><td>Betyg</td><td>Sätt Betyg</td><td>Skicka in</td></thead>
@@ -93,5 +93,11 @@
 </c:forEach>
 </tbody>
 </table>
+
+<form action="" method="POST" id="">
+        <input type="hidden" name="postType" value="logout">
+        <input type="submit" value="LOGOUT"/>
+</form>
+
 </body>
 </html>

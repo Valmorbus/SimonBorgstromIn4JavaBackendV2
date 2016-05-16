@@ -15,6 +15,8 @@
         <auth-constraint>
             <description/>
             <role-name>admin</role-name>
+            <role-name>teacher</role-name>
+            <role-name>student</role-name>
         </auth-constraint>
         <user-data-constraint>
             <description/>
@@ -22,11 +24,23 @@
         </user-data-constraint>
     </security-constraint>
     <login-config>
-        <auth-method>BASIC</auth-method>
+        <auth-method>FORM</auth-method>
         <realm-name>realmstudenter </realm-name>
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/errorpage.jsp</form-error-page>
+        </form-login-config>
     </login-config>
     <security-role>
         <description>Admin</description>
         <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>teacher</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>student</role-name>
     </security-role>
 </web-app>

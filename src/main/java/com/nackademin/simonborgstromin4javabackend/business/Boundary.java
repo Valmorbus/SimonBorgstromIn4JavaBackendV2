@@ -13,6 +13,8 @@ import com.nackademin.simonborgstromin4javabackend.facades.KurserFacade;
 import com.nackademin.simonborgstromin4javabackend.facades.StudenterFacade;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
@@ -22,6 +24,7 @@ import javax.persistence.TypedQuery;
  * @author borgs_000
  */
 @Stateless
+@DeclareRoles({"admin", "teacher"})
 public class Boundary {
 
     @Inject
@@ -33,32 +36,24 @@ public class Boundary {
     @Inject
     StudenterFacade sf;
 
+    @RolesAllowed({"admin"})
     public void addStudent(Studenter student) {
         sf.create(student);
     }
 
+    @RolesAllowed({"admin"})
     public void addStudent(String namn) {
         Studenter student = new Studenter();
         student.setNamn(namn);
         sf.create(student);
     }
 
-    /*
-    public void setStudentCourse(Studenter student, Kurser kurs) {
-        student.getBetygCollection().add();
-        sf.edit(student);
-    }
-
-    public void setStudentCourse(int id, Kurser kurs) {
-        Studenter student = sf.find(id);
-        student.getBetygCollection().add(kurs);
-        sf.edit(student);
-    }*/
-
+    @RolesAllowed({"admin"})
     public void removeStudent(Studenter student) {
         sf.remove(student);
     }
 
+    @RolesAllowed({"admin"})
     public void removeStudent(int id) {
         Studenter student = sf.find(id);
         sf.remove(student);
@@ -72,26 +67,25 @@ public class Boundary {
         return sf.find(id);
     }
 
-    /*
-    public void setGrade(Studenter student, Betyg betyg) {
-        student.getBetygSet().add(betyg);
-        sf.edit(student);
-    }*/
 
+    @RolesAllowed({"admin"})
     public void addCourse(Kurser course) {
         kf.create(course);
     }
 
+    @RolesAllowed({"admin"})
     public void addCourse(String namn) {
         Kurser course = new Kurser();
         course.setNamn(namn);
         kf.create(course);
     }
 
+    @RolesAllowed({"admin"})
     public void removeCourse(Kurser course) {
         kf.remove(course);
     }
 
+    @RolesAllowed({"admin"})
     public void removeCourse(int id) {
         Kurser course = kf.find(id);
         kf.remove(course);
@@ -105,16 +99,21 @@ public class Boundary {
         return kf.find(id);
     }
 
-    /*
-    public void setGrade(String betyg) {
-        Studenter student = sf.find(id);
-        student.getBetygSet().add(betyg);
-        sf.edit(student);
-    }*/
+    @RolesAllowed({"admin", "teacher"})
     public void setGrade(int studentId, int courseId, String betygValue) {
         Betyg betyg = new Betyg(studentId, courseId);
         betyg.setBetyg(betygValue);
         bf.edit(betyg);
+    }
+
+   @RolesAllowed({"admin", "teacher"})
+    public void gradeStudent(int student, int course, String grade) {
+        TypedQuery<Betyg> q = bf.getEntityManager().createNamedQuery("Betyg.findByKursAndStudentId", Betyg.class);
+        q.setParameter("studentid", student);
+        q.setParameter("kursid", course);
+        Betyg b = q.getSingleResult();
+        b.setBetyg(grade);
+        bf.edit(b);
     }
 
     public Studenter getStudentFromCourse(int id) {
@@ -125,25 +124,25 @@ public class Boundary {
 
     public List<Betyg> getAllStudentFromCourse(Integer id) {
         TypedQuery<Betyg> q = bf.getEntityManager().createNamedQuery("Betyg.findByKursid", Betyg.class);
-        return q.setParameter("kursid", id).getResultList();     
+        return q.setParameter("kursid", id).getResultList();
     }
-    
-    public Betyg getStudentToUpdate(int id){
+
+    public Betyg getStudentToUpdate(int id) {
         TypedQuery<Betyg> q = bf.getEntityManager().createNamedQuery("Betyg.findByStudentid", Betyg.class);
         return q.setParameter("studentid", id).getSingleResult();
     }
 
     public List<Studenter> getAllUnregisteredStudent() {
         TypedQuery<Studenter> q = sf.getEntityManager().createNamedQuery("Studenter.findUnregistered", Studenter.class);
-        return q.getResultList();     
+        return q.getResultList();
     }
-    
-      public List<Kurser> getAllUnregisteredCourses() {
+
+    public List<Kurser> getAllUnregisteredCourses() {
         TypedQuery<Kurser> q = sf.getEntityManager().createNamedQuery("Kurser.findUnregistered", Kurser.class);
-        return q.getResultList();     
+        return q.getResultList();
     }
-      public List<Betyg> getAllGrades(){
-        
+
+    public List<Betyg> getAllGrades() {
         return bf.findAll();
     }
 }
