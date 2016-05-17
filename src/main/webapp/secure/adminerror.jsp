@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>AdminPage</h1>
-
+        <h2 style="color:#069">You do not have permission to do these changes</h2>
         <h2>All Students not in courses:</h2>
         <table>
             <thead><td>Student</td><td>Delete</td></thead>
@@ -80,7 +80,7 @@
         <td>     <input hidden value = "${allGrades.kurser.id}" name="kursid"> ${allGrades.kurser.namn}</td>
         <td> <input hidden value = "${allGrades.kurser.id}" name="currGrade"> ${allGrades.betyg}</td>
 
-        <td> <select name="value" form="valueform">
+        <td>       <select name="value" form="valueform">
                 <option  value="null">Set grade</option>
                 <option  value="ig">IG</option>
                 <option  value="g">G</option>
@@ -93,7 +93,6 @@
 </c:forEach>
 </tbody>
 </table>
-
 
 
 <form action="" method="POST" id="registerform">
@@ -122,6 +121,7 @@
 </select>
  <input type="submit" value="Register"/>
    </form>
+
 
 
 

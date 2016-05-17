@@ -7,7 +7,6 @@ package com.nackademin.simonborgstromin4javabackend.presentation;
 
 import com.nackademin.simonborgstromin4javabackend.business.Boundary;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,12 +19,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author borgs_000
  */
-
-// Städa i kod, fixa texter
-// sätta upp Roller 
-// redirekt vid fel roll
-
-
 
 @WebServlet(name = "StudentServlet", urlPatterns = {"/", "/secure/DispatcherServlet"})
 public class DispatcherServlet extends HttpServlet {
@@ -62,8 +55,7 @@ public class DispatcherServlet extends HttpServlet {
                 forward = "/students.jsp";
                 break;
             case "/secure/betyg":
-                int studentid = Integer.parseInt(request.getParameter("id"));
-                System.out.println(studentid);
+                int studentid = Integer.parseInt(request.getParameter("id"));    
                 request.setAttribute("student", bound.getStudentToUpdate(studentid));
                 forward = "/secure/betyg.jsp";
                 break;
@@ -73,6 +65,13 @@ public class DispatcherServlet extends HttpServlet {
                 request.setAttribute("allGrades", bound.getAllGrades());
                 forward = "/secure/admin.jsp";
                 break;
+            case "/secure/adminerror":{
+                  request.setAttribute("allStudents", bound.getAllUnregisteredStudent());
+                request.setAttribute("allCourses", bound.getAllUnregisteredCourses());
+                request.setAttribute("allGrades", bound.getAllGrades());
+                forward = "/secure/adminerror.jsp";
+                break;
+            }
             default:
                 request.setAttribute("allCourses", bound.listAllCourses());
                 forward = "/index.jsp";
@@ -104,7 +103,6 @@ public class DispatcherServlet extends HttpServlet {
                 Integer kursId = Integer.valueOf(request.getParameter("kursid"));
                 Integer studentid = Integer.valueOf(request.getParameter("studentid"));
                 String requ = request.getParameter("value");
-                System.out.println(kursId + " " + studentid + " " + requ);
                 bound.gradeStudent(studentid, kursId, requ);
                 url = "../index";
                 } catch(javax.ejb.EJBAccessException e){
@@ -117,10 +115,9 @@ public class DispatcherServlet extends HttpServlet {
                 Integer kursId = Integer.valueOf(request.getParameter("kursid"));
                 Integer studentid = Integer.valueOf(request.getParameter("studentid"));
                 String requ = request.getParameter("value");
-                System.out.println(kursId + " " + studentid + " " + requ);
                 bound.gradeStudent(studentid, kursId, requ);
                 } catch(javax.ejb.EJBAccessException e){
-                    url = "admin";
+                    url = "adminerror";
                 }
                 break;
             case "deleteStudent":
@@ -128,7 +125,7 @@ public class DispatcherServlet extends HttpServlet {
                 int studentId = Integer.parseInt(request.getParameter("studentid"));
                 bound.removeStudent(studentId);
                 } catch(javax.ejb.EJBAccessException e){
-                    url = "admin";
+                    url = "adminerror";
                 }
                 break;
             case "deleteCourse":
@@ -136,7 +133,7 @@ public class DispatcherServlet extends HttpServlet {
                 int kursToDeleteId = Integer.parseInt(request.getParameter("kursid"));
                 bound.removeCourse(kursToDeleteId);
                  } catch(javax.ejb.EJBAccessException e){
-                    url = "admin";
+                    url = "adminerror";
                 }
                 break;
             case "addStudent":
@@ -144,7 +141,7 @@ public class DispatcherServlet extends HttpServlet {
                 String studentToAdd = request.getParameter("name");
                 bound.addStudent(studentToAdd);
                 } catch(javax.ejb.EJBAccessException e){
-                    url = "admin";
+                    url = "adminerror";
                 }
                 break;
             case "addCourse":
@@ -152,7 +149,7 @@ public class DispatcherServlet extends HttpServlet {
                 String courseToadd = request.getParameter("name");
                 bound.addCourse(courseToadd);
                  } catch(javax.ejb.EJBAccessException e){
-                    url = "admin";
+                    url = "adminerror";
                 }
                 break;
             case "logout":{
@@ -160,7 +157,20 @@ public class DispatcherServlet extends HttpServlet {
                   session.invalidate();  
                   url = "../index";
                   break;
-                  
+                           
+            }
+            case "setStudentToCourse":{
+                 try{
+                Integer kursId = Integer.valueOf(request.getParameter("regKursId"));
+                Integer studentId = Integer.valueOf(request.getParameter("regStudentId"));
+                System.out.println(kursId + " "+ studentId);
+                bound.registerStudentToCourse(studentId, kursId);
+                } catch(javax.ejb.EJBAccessException e){
+                    url = "adminerror";
+                } catch(javax.ejb.EJBException u){
+                   url = "admin";
+                }
+                break;
             }
         }
         response.sendRedirect(url);

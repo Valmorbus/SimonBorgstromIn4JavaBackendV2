@@ -6,6 +6,7 @@
 package com.nackademin.simonborgstromin4javabackend.business;
 
 import com.nackademin.simonborgstromin4javabackend.entities.Betyg;
+import com.nackademin.simonborgstromin4javabackend.entities.BetygPK;
 import com.nackademin.simonborgstromin4javabackend.entities.Kurser;
 import com.nackademin.simonborgstromin4javabackend.entities.Studenter;
 import com.nackademin.simonborgstromin4javabackend.facades.BetygFacade;
@@ -144,5 +145,11 @@ public class Boundary {
 
     public List<Betyg> getAllGrades() {
         return bf.findAll();
+    }
+    
+    @RolesAllowed({"admin", "teacher"})
+    public void registerStudentToCourse(int studentId, int courseId) {
+        Betyg betyg = new Betyg(new BetygPK(courseId, studentId));
+        bf.create(betyg);
     }
 }
