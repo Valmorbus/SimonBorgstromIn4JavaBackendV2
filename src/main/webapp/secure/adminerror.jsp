@@ -94,7 +94,8 @@
 </tbody>
 </table>
 
-
+<br><br>
+<h2>Register students to courses</h2>
 <form action="" method="POST" id="registerform">
         <input type="hidden" name="postType" value="setStudentToCourse">
         <select name="regStudentId" form="registerform">
@@ -121,8 +122,7 @@
 </select>
  <input type="submit" value="Register"/>
    </form>
-
-
+<br><br>
 
 
 <form action="" method="POST" id="">
